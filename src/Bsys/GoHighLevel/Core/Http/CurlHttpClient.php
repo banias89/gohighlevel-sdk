@@ -65,14 +65,12 @@ final class CurlHttpClient
         if ($rawResponse === false) {
             $errorCode = curl_errno($ch);
             $errorMessage = curl_error($ch);
-            curl_close($ch);
 
             throw new TransportException($errorCode, $errorMessage !== '' ? $errorMessage : 'Unknown cURL transport error.');
         }
 
         $headerSize = (int) curl_getinfo($ch, CURLINFO_HEADER_SIZE);
         $statusCode = (int) curl_getinfo($ch, CURLINFO_RESPONSE_CODE);
-        curl_close($ch);
 
         $rawHeaders = substr($rawResponse, 0, $headerSize);
         $rawBody = substr($rawResponse, $headerSize);
